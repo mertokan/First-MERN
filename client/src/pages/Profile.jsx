@@ -6,11 +6,15 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
-  deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  deleteUserFailure,
+  signOutStart,
+  signOutSuccess,
+  signOutFailure,
 } from '@/redux/user/userSlice'
 import {useDispatch} from 'react-redux'
+import {data} from 'autoprefixer'
 
 const Profile = () => {
   const {currentUser, loading, error} = useSelector((state) => state.user)
@@ -102,6 +106,21 @@ const Profile = () => {
       dispatch(deleteUserFailure(error.message))
     }
   }
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutStart())
+      const res = await fetch(`/api/user/signout`)
+      const data = await res.json()
+
+      if (data.success === false) {
+        dispatch(signOutFailure(data.message))
+        return
+      }
+      dispatch(signOutSuccess(data))
+    } catch (error) {
+      dispatch(signOutFailure(error.message))
+    }
+  }
 
   return (
     <div className='p-3 container mx-auto'>
@@ -170,7 +189,9 @@ const Profile = () => {
         <span onClick={handleDeleteUser} className='text-red-700 cursor-pointer font-semibold'>
           Delete Account
         </span>
-        <span className='text-red-700 cursor-pointer font-semibold'>Sign Out</span>
+        <span onClick={handleSignOut} className='text-red-700 cursor-pointer font-semibold'>
+          Sign Out
+        </span>
       </div>
 
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
