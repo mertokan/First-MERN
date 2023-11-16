@@ -49,7 +49,6 @@ const Profile = () => {
     setFormData({...formData, [e.target.id]: e.target.value})
   }
 
-  console.log(currentUser._id)
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -73,7 +72,7 @@ const Profile = () => {
       setInterval(() => {
         setUpdateSuccess(false)
       }, 3000)
-      
+
     } catch (error) {
       dispatch(updateUserFailure(error.message))
     }
