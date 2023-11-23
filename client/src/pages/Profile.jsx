@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux'
 import {useRef, useState, useEffect} from 'react'
-import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
+import {getDownloadURL, getStorage, list, ref, uploadBytesResumable} from 'firebase/storage'
 import {app} from '@/firebase'
 import {
   updateUserStart,
@@ -125,7 +125,6 @@ const Profile = () => {
   }
 
   const handleShowListings = async () => {
-    console.log('first')
     try {
       setShowListingsError(false)
       const res = await fetch(`/api/user/listings/${currentUser._id}`)
@@ -137,6 +136,22 @@ const Profile = () => {
       setUserListings(data)
     } catch (error) {
       setShowListingsError(true)
+    }
+  }
+
+  const handleListingDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (data.success === false) {
+        console.log(data.message)
+        return
+      }
+      setUserListings(userListings.filter((listing) => listing._id !== listingId))
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -227,7 +242,10 @@ const Profile = () => {
         <div className=' flex flex-col gap-4'>
           <h1 className='text-center mt-7 text-2xl font-semibold'>Your Listings</h1>
           {userListings.map((listing) => (
-            <div className='flex justify-between items-center border rounded-lg p-3 gap-4 '>
+            <div
+              key={listing._id}
+              className='flex justify-between items-center border rounded-lg p-3 gap-4 '
+            >
               <Link to={`/listing/${listing._id}`} key={listing._id} className=''>
                 <img
                   src={listing.imageUrls[0]}
@@ -242,7 +260,12 @@ const Profile = () => {
                 <p>{listing.name}</p>
               </Link>
               <div className='flex flex-col items-center gap-2'>
-                <button className='text-red-700 uppercase'>Delete</button>
+                <button
+                  className='text-red-700 uppercase'
+                  onClick={() => handleListingDelete(listing._id)}
+                >
+                  Delete
+                </button>
                 <button className='text-green-700 uppercase'>Edit</button>
               </div>
             </div>
