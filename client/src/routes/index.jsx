@@ -8,6 +8,7 @@ import SignUp from '@/pages/SignUp'
 import PrivateRoute from '@/components/PrivateRoute'
 import CreateListing from '@/pages/CreateListing'
 import UpdateLisitng from '@/pages/UpdateLisitng'
+import Listing from '@/pages/Listing'
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/listing/:listingId',
+        element: <Listing />,
       },
       {
         element: <PrivateRoute />,
