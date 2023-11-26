@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {signInStart, signInFailure, signInSuccess} from '@/redux/user/userSlice'
 
-const Signin = () => {
+const SignIn = () => {
   const [formData, setFormData] = useState({})
   const {loading, error} = useSelector((state) => state.user)
   const navigate = useNavigate()
@@ -79,4 +79,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default SignIn

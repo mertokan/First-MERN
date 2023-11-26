@@ -1,14 +1,15 @@
 import {createBrowserRouter} from 'react-router-dom'
 import App from '@/App'
-import Signin from '@/pages/Signin'
+import SignIn from '@/pages/SignIn'
 import Home from '@/pages/Home'
 import About from '@/pages/About'
 import Profile from '@/pages/Profile'
 import SignUp from '@/pages/SignUp'
 import PrivateRoute from '@/components/PrivateRoute'
 import CreateListing from '@/pages/CreateListing'
-import UpdateLisitng from '@/pages/UpdateLisitng'
+import UpdateListing from '@/pages/UpdateListing'
 import Listing from '@/pages/Listing'
+import Search from '@/pages/Search'
 
 const routes = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const routes = createBrowserRouter([
       },
       {
         path: '/sign-in',
-        element: <Signin />,
+        element: <SignIn />,
       },
       {
         path: '/sign-up',
@@ -37,6 +38,10 @@ const routes = createBrowserRouter([
         element: <Listing />,
       },
       {
+        path: '/search',
+        element: <Search />,
+      },
+      {
         element: <PrivateRoute />,
         children: [
           {
@@ -49,7 +54,7 @@ const routes = createBrowserRouter([
           },
           {
             path: '/update-listing/:listingId',
-            element: <UpdateLisitng />,
+            element: <UpdateListing />,
           },
         ],
       },
