@@ -7,7 +7,7 @@ const InputCheckboxes = ({id, label, onChange, checked}) => {
     <div className='flex gap-2 select-none'>
       <input
         type='checkbox'
-        name=''
+        name={id}
         id={id}
         className='w-5'
         onChange={onChange}
@@ -19,14 +19,13 @@ const InputCheckboxes = ({id, label, onChange, checked}) => {
 }
 
 const Search = () => {
-  const params = useParams()
   const navigate = useNavigate()
   const [sidebarData, setSidebarData] = useState({
     searchTerm: '',
     type: 'all',
     parking: false,
-    offer: false,
     furnished: false,
+    offer: false,
     sort: 'created_at',
     order: 'desc',
   })
@@ -79,12 +78,11 @@ const Search = () => {
       setListings(data)
       setLoading(false)
     }
+
     fetchListings()
   }, [location.search])
 
   const handleChange = (e) => {
-    e.preventDefault()
-
     if (e.target.id === 'all' || e.target.id === 'rent' || e.target.id === 'sale') {
       setSidebarData({...sidebarData, type: e.target.id})
     }
@@ -96,18 +94,18 @@ const Search = () => {
     if (e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer') {
       setSidebarData({
         ...sidebarData,
-        [e.target.id]: e.target.checked || e.target.checked === 'true ' ? true : false,
+        [e.target.id]: e.target.checked || e.target.checked === 'true' ? true : false,
       })
     }
 
     if (e.target.id === 'sort_order') {
       const sort = e.target.value.split('_')[0] || 'created_at'
+
       const order = e.target.value.split('_')[1] || 'desc'
 
       setSidebarData({...sidebarData, sort, order})
     }
   }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     const urlParams = new URLSearchParams()
@@ -122,6 +120,21 @@ const Search = () => {
     navigate(`/search?${searchQuery}`)
   }
 
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length
+    const startIndex = numberOfListings
+    const urlParams = new URLSearchParams(location.search)
+    urlParams.set('startIndex', startIndex)
+    const searchQuery = urlParams.toString()
+    const res = await fetch(`/api/listing/get?${searchQuery}`)
+    const data = await res.json()
+    if (data.length < 8) {
+      setShowMore(false)
+    } else {
+      setShowMore(true)
+    }
+    setListings([...listings, ...data])
+  }
   return (
     <div className='flex flex-col md:flex-row'>
       <div className='p-8 border-b-2 md:border-r-2 md:min-h-screen'>
@@ -192,14 +205,13 @@ const Search = () => {
             <select
               onChange={handleChange}
               defaultValue={'created_at_desc'}
-              name=''
               id='sort_order'
               className='border rounded-lg p-3'
             >
               <option value='regularPrice_desc'>Price high to low</option>
               <option value='regularPrice_asc'>Price low to hight</option>
-              <option value='created_at_desc'>Latest</option>
-              <option value='created_at_asc'>Oldest</option>
+              <option value='createdAt_desc'>Latest</option>
+              <option value='createdAt_asc'>Oldest</option>
             </select>
           </div>
           <button className='uppercase bg-slate-700 text-white p-3 rounded-lg hover:opacity-95'>
@@ -211,7 +223,7 @@ const Search = () => {
         <h1 className='font-semibold text-3xl border-b p-3 text-slate-700 mt-5'>
           Listing Results:
         </h1>
-        <div className='p-7 flex flex-wrap gap-4 '>
+        <div className='p-7 grid grid-cols-1 md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 justify-items-center'>
           {!loading && listings.length === 0 && (
             <p className='text-xl text-slate-700'>No listing found!</p>
           )}
@@ -219,6 +231,15 @@ const Search = () => {
           {!loading &&
             listings &&
             listings.map((listing) => <ListingItem key={listing._id} listing={listing} />)}
+
+          {showMore && (
+            <button
+              className='capitalize text-green-700 hover:underline p-7 text-center w-full col-span-full'
+              onClick={onShowMoreClick}
+            >
+              show more...
+            </button>
+          )}
         </div>
       </div>
     </div>
