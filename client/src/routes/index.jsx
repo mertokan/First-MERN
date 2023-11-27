@@ -2,7 +2,6 @@ import {createBrowserRouter} from 'react-router-dom'
 import App from '@/App'
 import SignIn from '@/pages/SignIn'
 import Home from '@/pages/Home'
-import About from '@/pages/About'
 import Profile from '@/pages/Profile'
 import SignUp from '@/pages/SignUp'
 import PrivateRoute from '@/components/PrivateRoute'
@@ -28,10 +27,6 @@ const routes = createBrowserRouter([
       {
         path: '/sign-up',
         element: <SignUp />,
-      },
-      {
-        path: '/about',
-        element: <About />,
       },
       {
         path: '/listing/:listingId',

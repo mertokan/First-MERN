@@ -48,9 +48,6 @@ const Header = () => {
           <li className='hidden sm:inline text-slate-700 hover:underline cursor-pointer'>
             <Link to='/'>Home</Link>
           </li>
-          <li className='hidden sm:inline text-slate-700 hover:underline cursor-pointer'>
-            <Link to='/about'>About</Link>
-          </li>
           <Link to='/profile'>
             {currentUser ? (
               <img
