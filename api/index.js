@@ -27,11 +27,11 @@ app.listen(3000, () => {
   console.log('Server is running on port 3000!')
 })
 
-
+app.use(cors())
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/listing', listingRouter)
-app.use(cors())
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500
