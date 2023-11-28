@@ -10,7 +10,7 @@ export default defineConfig({
         // target: 'http://localhost:3000',
         target: 'http://first-mern-iijz.vercel.app',
         secure: true,
-        // changeOrigin: true,
+        changeOrigin: true,
       },
     },
   },
