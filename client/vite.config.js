@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:3000',
-        target: 'https://first-mern-iijz.vercel.app',
+        target: 'http://first-mern-iijz.vercel.app',
         secure: true,
         changeOrigin: true,
       },
