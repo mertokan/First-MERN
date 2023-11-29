@@ -33,6 +33,7 @@ const Search = () => {
   const [loading, setLoading] = useState(false)
   const [listings, setListings] = useState([])
   const [showMore, setShowMore] = useState(false)
+  const env = import.meta.env.VITE_BACKEND_LINK
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -68,7 +69,7 @@ const Search = () => {
       setLoading(true)
       setShowMore(false)
       const searchQuery = urlParams.toString()
-      const res = await fetch(`/api/listing/get?${searchQuery}`)
+      const res = await fetch(`${env}/api/listing/get?${searchQuery}`)
       const data = await res.json()
       if (data.length > 8) {
         setShowMore(true)
@@ -126,7 +127,7 @@ const Search = () => {
     const urlParams = new URLSearchParams(location.search)
     urlParams.set('startIndex', startIndex)
     const searchQuery = urlParams.toString()
-    const res = await fetch(`/api/listing/get?${searchQuery}`)
+    const res = await fetch(`${env}/api/listing/get?${searchQuery}`)
     const data = await res.json()
     if (data.length < 8) {
       setShowMore(false)

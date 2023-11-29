@@ -6,6 +6,7 @@ const SignUp = () => {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const env = import.meta.env.VITE_BACKEND_LINK
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value})
@@ -22,7 +23,7 @@ const SignUp = () => {
         setLoading(false)
         return
       } else {
-        const res = await fetch('/api/auth/signup', {
+        const res = await fetch(`${env}/api/auth/signup`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(formData),

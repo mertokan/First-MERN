@@ -59,6 +59,7 @@ const CreateListing = () => {
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const env = import.meta.env.VITE_BACKEND_LINK
 
 
   const handleImageSubmit = (e) => {
@@ -135,7 +136,7 @@ const CreateListing = () => {
         return setError('Discount price must be lower than regular price')
       setLoading(true)
       setError(false)
-      const res = await fetch('/api/listing/create', {
+      const res = await fetch(`${env}/api/listing/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

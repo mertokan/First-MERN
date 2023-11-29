@@ -9,6 +9,8 @@ import {Navigation} from 'swiper/modules'
 import {Swiper, SwiperSlide} from 'swiper/react'
 
 const Listing = () => {
+  const env = import.meta.env.VITE_BACKEND_LINK
+
   const [listing, setListing] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -22,7 +24,7 @@ const Listing = () => {
     const fetchListing = async () => {
       try {
         setLoading(true)
-        const res = await fetch(`/api/listing/get/${params.listingId}`)
+        const res = await fetch(`${env}/api/listing/get/${params.listingId}`)
         const data = await res.json()
         if (data.success === false) {
           setError(true)

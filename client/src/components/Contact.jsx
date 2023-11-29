@@ -4,11 +4,12 @@ import {Link} from 'react-router-dom'
 const Contact = ({listing}) => {
   const [landlord, setLandlord] = useState(null)
   const [message, setMessage] = useState('')
+  const env = import.meta.env.VITE_BACKEND_LINK
 
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const res = await fetch(`/api/user/${listing.userRef}`)
+        const res = await fetch(`${env}/api/user/${listing.userRef}`)
         const data = await res.json()
         setLandlord(data)
       } catch (error) {

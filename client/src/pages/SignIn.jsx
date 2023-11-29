@@ -8,6 +8,7 @@ const SignIn = () => {
   const {loading, error} = useSelector((state) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const env = import.meta.env.VITE_BACKEND_LINK
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value})
@@ -22,7 +23,7 @@ const SignIn = () => {
         dispatch(signInFailure('All fields are required'))
         return
       } else {
-        const res = await fetch('/api/auth/signin', {
+        const res = await fetch(`${env}/api/auth/signin`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(formData),

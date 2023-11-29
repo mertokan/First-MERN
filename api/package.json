@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index --ignore client",
-    "client": "npm start --prefix client",
+    "client": "node index.js",
     "start": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\""
   },
   "keywords": [],
