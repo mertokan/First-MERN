@@ -23,7 +23,7 @@ const SignIn = () => {
         dispatch(signInFailure('All fields are required'))
         return
       } else {
-        const res = await fetch(`${env}/api/auth/signin`, {
+        const res = await fetch(`/api/auth/signin`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(formData),

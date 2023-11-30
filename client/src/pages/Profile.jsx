@@ -67,7 +67,7 @@ const Profile = () => {
     e.preventDefault()
     try {
       dispatch(updateUserStart())
-      const res = await fetch(`${env}/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const Profile = () => {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart())
-      const res = await fetch(`${env}/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       })
 
@@ -112,7 +112,7 @@ const Profile = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutStart())
-      const res = await fetch(`${env}/api/auth/signout`)
+      const res = await fetch(`/api/auth/signout`)
       const data = await res.json()
 
       if (data.success === false) {
@@ -128,7 +128,7 @@ const Profile = () => {
   const handleShowListings = async () => {
     try {
       setShowListingsError(false)
-      const res = await fetch(`${env}/api/user/listings/${currentUser._id}`)
+      const res = await fetch(`/api/user/listings/${currentUser._id}`)
       const data = await res.json()
       if (data.success === false) {
         setShowListingsError(true)
@@ -142,7 +142,7 @@ const Profile = () => {
 
   const handleListingDelete = async (listingId) => {
     try {
-      const res = await fetch(`${env}/api/listing/delete/${listingId}`, {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
         method: 'DELETE',
       })
       const data = await res.json()

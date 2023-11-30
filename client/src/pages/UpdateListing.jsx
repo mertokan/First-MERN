@@ -66,7 +66,7 @@ const UpdateListing = () => {
   useEffect(() => {
     const fetchListing = async () => {
       const listingId = params.listingId
-      const res = await fetch(`${env}/api/listing/get/${listingId}`)
+      const res = await fetch(`/api/listing/get/${listingId}`)
       const data = await res.json()
       setFormData(data)
       if (data.success === false) {
