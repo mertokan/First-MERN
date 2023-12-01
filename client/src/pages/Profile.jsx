@@ -92,21 +92,25 @@ const Profile = () => {
   }
 
   const handleDeleteUser = async () => {
-    try {
-      dispatch(deleteUserStart())
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: 'DELETE',
-      })
+    if (currentUser.email !== 'test@test.com' || currentUser.email !== 'listing@g.com') {
+      console.log('This account cannot be deleted')
+    } else {
+      try {
+        dispatch(deleteUserStart())
+        const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+          method: 'DELETE',
+        })
 
-      const data = await res.json()
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message))
-        return
+        const data = await res.json()
+        if (data.success === false) {
+          dispatch(deleteUserFailure(data.message))
+          return
+        }
+
+        dispatch(deleteUserSuccess(data))
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message))
       }
-
-      dispatch(deleteUserSuccess(data))
-    } catch (error) {
-      dispatch(deleteUserFailure(error.message))
     }
   }
   const handleSignOut = async () => {
@@ -193,23 +197,29 @@ const Profile = () => {
           className='border p-3 rounded-lg'
           onChange={handleChange}
         />
-        <input
-          type='text'
-          placeholder='Email'
-          defaultValue={currentUser.email}
-          name=''
-          id='email'
-          className='border p-3 rounded-lg'
-          onChange={handleChange}
-        />
-        <input
-          type='password'
-          placeholder='Password'
-          name=''
-          id='password'
-          className='border p-3 rounded-lg'
-          onChange={handleChange}
-        />
+        {currentUser.email !== 'test@test.com' ||
+          (currentUser.email === 'listing@g.com' && (
+            <input
+              type='text'
+              placeholder='Email'
+              defaultValue={currentUser.email}
+              name=''
+              id='email'
+              className='border p-3 rounded-lg'
+              onChange={handleChange}
+            />
+          ))}
+        {currentUser.email !== 'test@test.com' ||
+          (currentUser.email === 'listing@g.com' && (
+            <input
+              type='password'
+              placeholder='Password'
+              name=''
+              id='password'
+              className='border p-3 rounded-lg'
+              onChange={handleChange}
+            />
+          ))}
         <button
           disabled={loading}
           className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-70'
@@ -224,9 +234,11 @@ const Profile = () => {
         </Link>
       </form>
 
-      <div className='flex justify-between'>
+      <div className='flex justify-between select-none'>
         <span onClick={handleDeleteUser} className='text-red-700 cursor-pointer font-semibold'>
-          Delete Account
+          {currentUser.email === 'test@test.com' || currentUser.email === 'listing@g.com'
+            ? "Can't delete test user"
+            : 'Delete Account'}
         </span>
         <span onClick={handleSignOut} className='text-red-700 cursor-pointer font-semibold'>
           Sign Out
